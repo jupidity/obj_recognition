@@ -7,14 +7,17 @@ project(obj_recognition)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+## we use dynamic reconfigure, and generate custom messages
 find_package(catkin REQUIRED COMPONENTS
 
 	dynamic_reconfigure
+	message_generation
 	pcl_conversions
 	pcl_ros
 	roscpp
 	rospy
 	roslint
+	std_msgs
 	sensor_msgs
 
 )
@@ -26,7 +29,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
+## we do have a setup.py to help with import statements
+catkin_python_setup()
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -53,18 +57,20 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+## we make two custom mesages in this package, need to tell CMake
+ add_message_files(
+   FILES
+	 DetectedObject.msg
+	 DetectedObjectsArray.msg
+ )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+## we need to add our custom services to the CMakeLists
+ add_service_files(
+   FILES
+	 GetNormals.srv
+	 GetFloatArrayFeature.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -74,10 +80,13 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+## in this package we generate custom messages dependent on
+## both std_msgs and sensor_msgs from pcl
+ generate_messages(
+   DEPENDENCIES
+   std_msgs  # Or other packages containing msgs
+	 sensor_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -109,11 +118,14 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+## since we declare custom messages we need to tell CMake that
+## catkin_packages depende on that lib
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES obj_recognition
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
+CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -145,6 +157,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/obj_recognition_node.cpp)
 add_executable(cloud_transformer src/cloud_transformer.cpp)
 add_executable(segmentation scripts/segmentation.cpp)
+add_executable(feature_extractor src/feature_extractor.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -155,11 +168,14 @@ add_executable(segmentation scripts/segmentation.cpp)
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(cloud_transformer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
-
+add_dependencies(feature_extractor obj_recognition_gencpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries( cloud_transformer
    ${catkin_LIBRARIES}
  )
+
+ target_link_libraries(feature_extractor ${catkin_LIBRARIES})
+
 
  target_link_libraries( segmentation
     ${catkin_LIBRARIES}
