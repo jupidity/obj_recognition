@@ -44,8 +44,8 @@ feature_list = []
 label_list = []
 
 for item in training_set:
-    if np.isnan(item[0]).sum() < 1:
-        feature_list.append(item[0])
+    if np.isnan(item[0]).sum() < 1: # if there are no NaN s in the item[0] array
+        feature_list.append(item[0]) # add to the feature list
         label_list.append(item[1])
 
 print('Features in Training Set: {}'.format(len(training_set)))
@@ -74,7 +74,7 @@ kf = cross_validation.KFold(len(X_train),
 # Perform cross-validation
 scores = cross_validation.cross_val_score(cv=kf,
                                          estimator=clf,
-                                         X=X_train, 
+                                         X=X_train,
                                          y=y_train,
                                          scoring='accuracy'
                                         )
@@ -84,7 +84,7 @@ print('Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), 2*scores.std()))
 # Gather predictions
 predictions = cross_validation.cross_val_predict(cv=kf,
                                           estimator=clf,
-                                          X=X_train, 
+                                          X=X_train,
                                           y=y_train
                                          )
 
