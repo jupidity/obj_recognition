@@ -12,6 +12,7 @@ def rgb_to_hsv(rgb_list):
 
 def compute_color_histograms(cloud, using_hsv=False):
 
+    numBins = 64
     # Compute histograms for the clusters
     point_colors_list = []
 
@@ -28,15 +29,16 @@ def compute_color_histograms(cloud, using_hsv=False):
     channel_2_vals = []
     channel_3_vals = []
 
+
     for color in point_colors_list:
         channel_1_vals.append(color[0])
         channel_2_vals.append(color[1])
         channel_3_vals.append(color[2])
 
     # Compute histograms for the colors in the point cloud
-    channel1_hist = np.histogram(channel_1_vals, bins=32, range=(0, 256))
-    channel2_hist = np.histogram(channel_2_vals, bins=32, range=(0, 256))
-    channel3_hist = np.histogram(channel_3_vals, bins=32, range=(0, 256))
+    channel1_hist = np.histogram(channel_1_vals, bins=numBins, range=(0, 256))
+    channel2_hist = np.histogram(channel_2_vals, bins=numBins, range=(0, 256))
+    channel3_hist = np.histogram(channel_3_vals, bins=numBins, range=(0, 256))
 
 
 
@@ -50,6 +52,7 @@ def compute_normal_histograms(normal_cloud):
     norm_x_vals = []
     norm_y_vals = []
     norm_z_vals = []
+    numBins = 64
 
     for norm_component in pc2.read_points(normal_cloud,
                                           field_names = ('normal_x', 'normal_y', 'normal_z'),
@@ -59,9 +62,9 @@ def compute_normal_histograms(normal_cloud):
         norm_z_vals.append(norm_component[2])
 
     # Compute histograms for the normals in the point cloud
-    norm1_hist = np.histogram(norm_x_vals, bins=32, range=(0, 256))
-    norm2_hist = np.histogram(norm_y_vals, bins=32, range=(0, 256))
-    norm3_hist = np.histogram(norm_z_vals, bins=32, range=(0, 256))
+    norm1_hist = np.histogram(norm_x_vals, bins=numBins, range=(0, 256))
+    norm2_hist = np.histogram(norm_y_vals, bins=numBins, range=(0, 256))
+    norm3_hist = np.histogram(norm_z_vals, bins=numBins, range=(0, 256))
 
 
     # Concatenate and normalize the histograms
