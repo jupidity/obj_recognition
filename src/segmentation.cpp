@@ -168,6 +168,7 @@ void segmentation::cloud_cb (const sensor_msgs::PointCloud2ConstPtr& cloud_msg)
   for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
   {
 
+    
     // now we are in a vector of indices pertining to a single cluster.
     // Assign each point corresponding to this cluster in xyzCloudPtrPassthroughFiltered a specific color for identification purposes
     for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit)
