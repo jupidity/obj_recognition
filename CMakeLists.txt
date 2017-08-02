@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(obj_recognition)
+project(svm_model_generation)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -122,7 +122,7 @@ catkin_python_setup()
 ## catkin_packages depende on that lib
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES obj_recognition
+#  LIBRARIES svm_model_generation
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 CATKIN_DEPENDS message_runtime
@@ -143,7 +143,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/obj_recognition.cpp
+#   src/${PROJECT_NAME}/svm_model_generation.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -154,7 +154,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/obj_recognition_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/svm_model_generation_node.cpp)
 add_executable(${PROJECT_NAME}_cloud_transformer src/cloud_transformer.cpp)
 #add_executable(${PROJECT_NAME}_segmentation src/segmentation.cpp)
 add_executable(${PROJECT_NAME}_feature_extractor src/feature_extractor.cpp)
@@ -170,7 +170,7 @@ add_executable(${PROJECT_NAME}_feature_extractor src/feature_extractor.cpp)
 add_dependencies(${PROJECT_NAME}_cloud_transformer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 #add_dependencies(${PROJECT_NAME}_segmentation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
-add_dependencies(${PROJECT_NAME}_feature_extractor obj_recognition_gencpp)
+add_dependencies(${PROJECT_NAME}_feature_extractor svm_model_generation_gencpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries( ${PROJECT_NAME}_cloud_transformer
    ${catkin_LIBRARIES}
@@ -223,7 +223,7 @@ target_link_libraries( ${PROJECT_NAME}_cloud_transformer
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_obj_recognition.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_svm_model_generation.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

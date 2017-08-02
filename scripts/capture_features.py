@@ -3,14 +3,14 @@ import numpy as np
 import pickle
 import rospy
 
-from obj_recognition.pcl_helper import *
-from obj_recognition.training_helper import spawn_model
-from obj_recognition.training_helper import delete_model
-from obj_recognition.training_helper import initial_setup
-from obj_recognition.training_helper import capture_sample
-from obj_recognition.features import compute_color_histograms
-from obj_recognition.features import compute_normal_histograms
-from obj_recognition.srv import GetNormals
+from svm_model_generation.pcl_helper import *
+from svm_model_generation.training_helper import spawn_model
+from svm_model_generation.training_helper import delete_model
+from svm_model_generation.training_helper import initial_setup
+from svm_model_generation.training_helper import capture_sample
+from svm_model_generation.features import compute_color_histograms
+from svm_model_generation.features import compute_normal_histograms
+from svm_model_generation.srv import GetNormals
 from geometry_msgs.msg import Pose
 from sensor_msgs.msg import PointCloud2
 

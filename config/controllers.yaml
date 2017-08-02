@@ -1,4 +1,4 @@
-obj_recognition:
+svm_model_generation:
     #list of controllers
     joint_state_controller:
       type: joint_state_controller/JointStateController

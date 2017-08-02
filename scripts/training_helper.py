@@ -15,7 +15,7 @@ import rospy
 import rospkg
 import tf
 
-from obj_recognition.srv import GetNormals
+from svm_model_generation.srv import GetNormals
 from gazebo_msgs.srv import GetPhysicsProperties
 from gazebo_msgs.srv import SetPhysicsProperties
 from gazebo_msgs.srv import GetModelState
@@ -55,7 +55,7 @@ def capture_sample():
     sms_req.model_state.reference_frame = 'world'
     set_model_state_prox(sms_req)
 
-    return rospy.wait_for_message('/obj_recognition/point_cloud', PointCloud2)
+    return rospy.wait_for_message('/svm_model_generation/point_cloud', PointCloud2)
 
 
 def initial_setup():
@@ -106,7 +106,7 @@ def spawn_model(model_name):
     initial_pose.position.z = 1
 
     # Spawn the new model #
-    model_path = rospkg.RosPack().get_path('obj_recognition')+'/models/'
+    model_path = rospkg.RosPack().get_path('svm_model_generation')+'/models/'
     model_xml = ''
 
     with open (model_path + model_name + '/model.sdf', 'r') as xml_file:
