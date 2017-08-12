@@ -29,7 +29,16 @@ if __name__ == '__main__':
        'create',
        'disk_part',
        'hammer',
+       'biscuits',
+       'book',
+       'eraser',
+       'glue',
+       'snacks',
        'plastic_cup',
+       'soap',
+       'soap2',
+       'sticky_notes',
+       'arm_part',
        'soda_can']
 
     # Disable gravity and delete the ground plane
