@@ -11,9 +11,9 @@
   args="-urdf -param robot_description -x 0 -y 1.8 -z 0 -R 0 -P 0 -Y 0 -model svm_model_generation"/>
 
   <!-- cloud transformer-->
-  <node name="cloud_transformer" pkg="svm_model_generation" type="cloud_transformer" respawn="false"/>
+  <node name="cloud_transformer" pkg="svm_model_generation" type="svm_model_generation_cloud_transformer" respawn="false"/>
 
   <!-- The feature extractor node -->
-  <node name="feature_extractor" pkg="svm_model_generation" type="feature_extractor" respawn="false"/>
+  <node name="feature_extractor" pkg="svm_model_generation" type="svm_model_generation_feature_extractor" respawn="false"/>
 
 </launch>
